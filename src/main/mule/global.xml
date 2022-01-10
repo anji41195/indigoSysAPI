@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<db:config name="Indigo_Database_Config" doc:name="Database Config" doc:id="edeedda7-b8bc-43b3-b2c1-a1ad85c470b5" >
+		<db:my-sql-connection host="sql6.freemysqlhosting.net" port="3306" user="sql6463789" password="KJpfTS8pVZ" database="sql6463789" />
+	</db:config>
+	<error-handler name="globalError_Handler" doc:id="aa4be605-0b2f-452e-a0df-27ee80fd79aa" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="2316c487-2ef6-4abf-8f71-cb0a190b7143" type="DB:CONNECTIVITY">
+			<set-payload value="Server Down...Try Later" doc:name="Set Payload" doc:id="017a6fb8-ff9c-4b61-ab8f-f296cb9b0fca" />
+		</on-error-propagate>
+	</error-handler>
+</mule>

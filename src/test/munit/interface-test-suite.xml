@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="interface-test-suite.xml" />
+	<munit:test name="interface-test-suite-bookmyholiday-indigo-sys-api-mainTest" doc:id="8f23691d-9ab1-4db6-8d7f-241f74bc7a5c" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to bookmyholiday-indigo-sys-api-main" doc:id="b16bde88-a4f7-4850-ba8c-db5b6750d535" name="bookmyholiday-indigo-sys-api-main"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="interface-test-suite-get:\indigo:bookmyholiday-indigo-sys-api-configTest" doc:id="6f799bff-570f-4389-afea-95cfc44966b3" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\indigo:bookmyholiday-indigo-sys-api-config" doc:id="e5ed46fc-7e43-4a55-8399-a412e728bdab" name="get:\indigo:bookmyholiday-indigo-sys-api-config"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="interface-test-suite-get:\indigo\(ID):bookmyholiday-indigo-sys-api-configTest" doc:id="71c82508-c660-4dfd-b0cd-030a2c50f1ff" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\indigo\(ID):bookmyholiday-indigo-sys-api-config" doc:id="93a53bce-3b0b-403a-80bd-8d61d03e1743" name="get:\indigo\(ID):bookmyholiday-indigo-sys-api-config"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="interface-test-suite-post:\flightbookings:application\json:bookmyholiday-indigo-sys-api-configTest" doc:id="359f0f3f-ecb1-4a9c-bddc-c95ded184f23" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to post:\flightbookings:application\json:bookmyholiday-indigo-sys-api-config" doc:id="767ac36e-f7a4-4eab-bfb5-bc686ac29653" name="post:\flightbookings:application\json:bookmyholiday-indigo-sys-api-config"/>
+		</munit:execution>
+	</munit:test>
+
+
+</mule>

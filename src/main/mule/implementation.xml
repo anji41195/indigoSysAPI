@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="getFlightDetails" doc:id="778fd2de-f2d4-43a8-abef-4a4824f3295b" >
+		<db:select doc:name="GetFlightDetails" doc:id="a4034b1f-4465-4320-8712-73944d8d1019" config-ref="Indigo_Database_Config">
+			<db:sql ><![CDATA[select * from Indigo_Flight_Available where origin = :origin and destination = :destination]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	origin: attributes.queryParams.origin,
+	destination: attributes.queryParams.destination
+}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="852ff2ad-9c42-4df8-8746-ea77664c5488" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfPayload01 ) -> {
+	ID: payload01.ID,
+	code: payload01.code default "",
+	price: payload01.price as Number default 0,
+	origin: payload01.origin,
+	destination: payload01.destination,
+	departureDate: payload01.departureDate as String {format: "dd-MM-yyyy"} default "",
+	emptySeats: payload01.emptySeats default 0
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="postFlightDetails" doc:id="305669bf-0cd2-4230-b344-c10274b7a745" >
+		<db:insert doc:name="PostFlightDetails(BookYourFlight)" doc:id="c8bff7f7-5be0-4da5-9519-098368c35f37" config-ref="Indigo_Database_Config">
+			<db:sql ><![CDATA[INSERT INTO Indigo_Flight_Booking (`code`, `departureDate`, `origin`, `destination`, `price`, `emptySeats`) VALUES (:code, :departureDate, :origin, :destination, :price, :emptySeats)]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	code : payload.code,
+	departureDate : payload.departureDate, 
+	origin : payload.origin,
+	destination : payload.destination, 
+	price : payload.price, 
+	emptySeats : payload.emptySeats
+}]]]></db:input-parameters>
+		</db:insert>
+		<ee:transform doc:name="Transform Message" doc:id="77a80303-56ab-4e19-a636-01c59619ccde" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message : "Flight Booked Successfully"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="getFlightsByID" doc:id="e86e7d27-c9d0-4ef6-b6e9-a54daaffe98e" >
+		<db:select doc:name="getFlightByID" doc:id="baa0b213-9650-4f42-9335-ec568428ac17" config-ref="Indigo_Database_Config">
+			<db:sql ><![CDATA[select * from Indigo_Flight_Available where ID = :ID]]></db:sql>
+			<db:input-parameters ><![CDATA[#[ID: attributes.uriParams.ID]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="00186b58-1879-4875-bbf8-3f68b51c5023" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfPayload01 ) ->{
+	ID: payload01.ID,
+	code: payload01.code default "",
+	price: payload01.price as Number default 0,
+	origin: payload01.origin,
+	destination: payload01.destination,
+	departureDate: payload01.departureDate as String {format: "dd-MM-yyyy"} default "",
+	emptySeats: payload01.emptySeats default 0
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
