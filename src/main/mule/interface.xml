@@ -4,7 +4,8 @@
         <http:listener-connection host="0.0.0.0" port="8084" />
     </http:listener-config>
     <apikit:config name="bookmyholiday-indigo-sys-api-config" api="resource::152d1991-08cd-4b6e-a747-9013bbff4bce:bookmyholiday-indigo-sys-api:1.0.0:raml:zip:bookmyholiday-indigo-sys-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-    <flow name="bookmyholiday-indigo-sys-api-main">
+    <configuration-properties doc:name="Configuration properties" doc:id="873124bf-4410-4043-b5b2-ed2d0b423868" file="config.yaml" />
+	<flow name="bookmyholiday-indigo-sys-api-main">
         <http:listener config-ref="bookmyholiday-indigo-sys-api-httpListenerConfig" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers>#[vars.outboundHeaders default {}]</http:headers>
